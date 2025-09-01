@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 import mysql.connector
 from mysql.connector import Error
 import json
+import time
 
 # Load environment variables
 load_dotenv(dotenv_path=".env")
@@ -18,17 +19,21 @@ app = FastAPI(title="Stroke Prediction API",
               version="1.0")
 
 # Database connection function
-def get_db_connection():
-    try:
-        return mysql.connector.connect(
-            host=os.getenv("MYSQL_HOST"),
-            port=os.getenv("MYSQL_PORT"),
-            database=os.getenv("MYSQL_DB_NAME"),
-            user=os.getenv("MYSQL_USER"),
-            password=os.getenv("MYSQL_PASSWORD")
-        )
-    except Error as e:
-        raise RuntimeError(f"Error connecting to MySQL: {e}")
+def get_db_connection(retries=5, delay=5):
+    for attempt in range(retries):
+        try:
+            return mysql.connector.connect(
+                host=os.getenv("MYSQL_HOST"),
+                port=os.getenv("MYSQL_PORT"),
+                database=os.getenv("MYSQL_DB_NAME"),
+                user=os.getenv("MYSQL_USER"),
+                password=os.getenv("MYSQL_PASSWORD")
+            )
+        except Error as e:
+            if attempt < retries - 1:
+                time.sleep(delay)
+            else:
+                raise RuntimeError(f"Error connecting to MySQL: {e}")
 
 # Create predictions table if not exists
 def init_db():
