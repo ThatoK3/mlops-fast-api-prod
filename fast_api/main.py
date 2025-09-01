@@ -71,7 +71,8 @@ def init_db():
 init_db()
 
 # Model loading with proper path resolution
-model_path = Path(__file__).parent / os.getenv("SAVED_MODEL")
+#model_path = Path(__file__).parent / os.getenv("SAVED_MODEL")
+model_path = os.getenv("SAVED_MODEL")
 try:
     model = joblib.load(model_path)
 except Exception as e:
