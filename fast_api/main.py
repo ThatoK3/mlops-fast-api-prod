@@ -26,8 +26,8 @@ def get_db_connection(retries=5, delay=5):
                 host=os.getenv("MYSQL_HOST"),
                 port=os.getenv("MYSQL_PORT"),
                 database=os.getenv("MYSQL_DB_NAME"),
-                user=os.getenv("MYSQL_USER"),
-                password=os.getenv("MYSQL_PASSWORD")
+                user="root",
+                password=os.getenv("MYSQL_ROOT_PASSWORD")
             )
         except Error as e:
             if attempt < retries - 1:
