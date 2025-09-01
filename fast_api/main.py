@@ -13,8 +13,8 @@ from mysql.connector import Error
 import json
 
 # Load environment variables
-env_path = Path(__file__).parent / ".env"
-load_dotenv(dotenv_path=env_path)
+#env_path = Path(__file__).parent.parent / ".env"
+load_dotenv(dotenv_path=".env")
 
 app = FastAPI(title="Stroke Prediction API",
               description="API for predicting stroke risk based on health metrics",
@@ -24,11 +24,11 @@ app = FastAPI(title="Stroke Prediction API",
 def get_db_connection():
     try:
         connection = mysql.connector.connect(
-            host=os.getenv("DB_HOST"),
-            port=os.getenv("DB_PORT"),
-            database=os.getenv("DB_NAME"),
-            user=os.getenv("DB_USER"),
-            password=os.getenv("DB_PASSWORD")
+            host=os.getenv("MYSQL_HOST"),
+            port=os.getenv("MYSQL_PORT"),
+            database=os.getenv("MYSQL_DB_NAME"),
+            user="root", #os.getenv("MYSQL_USER"),
+            password=os.getenv("MYSQL_PASSWORD")
         )
         return connection
     except Error as e:
