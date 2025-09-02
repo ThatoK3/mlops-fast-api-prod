@@ -22,13 +22,14 @@ services:
       - 9092:9092
 
   mysql:
-    image: quay.io/debezium/example-mysql:1.9
+    image: thatojoe/mysql
     ports:
       - 3306:3306
     environment:
       - MYSQL_ROOT_PASSWORD=debezium
       - MYSQL_USER=mysqluser
-      - MYSQL_PASSWORD=mysqlpw
+      - MYSQL_PASSWORD=mysqlpwa
+      - MYSQL_DATABASE=stroke_predictions
   
   connect:
     image: quay.io/debezium/connect:1.9
@@ -67,13 +68,17 @@ services:
     volumes:
       - ./fast_api:/app/fast_api
       - ./models:/app/models
-      - ./fast_api/.env:/app/fast_api/.env
     working_dir: /app/fast_api
+    environment:
+      - PYTHONPATH=/app
+      - PYTHONUNBUFFERED=1
     # If you want to pull from DockerHub instead of build, use:
     # image: thatojoe/stroke-prediction-api
     depends_on:
       - kafka
       - mysql
+    restart: unless-stopped
+
 
   # ================= Spark Cluster + PySpark Notebook =================
   spark:

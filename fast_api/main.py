@@ -23,11 +23,11 @@ def get_db_connection(retries=5, delay=5):
     for attempt in range(retries):
         try:
             return mysql.connector.connect(
-                host=os.getenv("MYSQL_HOST"),
-                port=os.getenv("MYSQL_PORT"),
-                database=os.getenv("MYSQL_DB_NAME"),
+                host="172.31.87.188",
+                port="3306",
+                database="stroke_predictions",
                 user="root",
-                password=os.getenv("MYSQL_ROOT_PASSWORD")
+                password="debezium"
             )
         except Error as e:
             if attempt < retries - 1:
