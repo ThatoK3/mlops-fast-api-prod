@@ -23,7 +23,7 @@ def get_db_connection(retries=5, delay=5):
     for attempt in range(retries):
         try:
             return mysql.connector.connect(
-                host="172.31.87.188",
+                host="mysql",  # Changed from "localhost" to service name "mysql"
                 port="3306",
                 database="stroke_predictions",
                 user="root",
@@ -69,8 +69,8 @@ def init_db():
 # Initialize database on startup
 init_db()
 
-# Load model
-model_path = os.getenv("SAVED_MODEL")
+# Load model - use absolute path
+model_path = "/app/models/Logistic_Regression.pkl"
 try:
     model = joblib.load(model_path)
 except Exception as e:
