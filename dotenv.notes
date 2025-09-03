@@ -20,3 +20,39 @@
 # MODELS=./models
 # NOTEBOOKS=./notebooks
 # SAVED_MODEL=../models/Logistic_Regression.pkl
+#
+#
+#
+# # MySQL
+MYSQL_ROOT_PASSWORD=
+MYSQL_USER=MYSQL_USER_MLFLOW
+MYSQL_PASSWORD=
+MYSQL_HOST=
+MYSQL_PORT=3306
+MYSQL_DB_NAME=stroke_predictions
+
+# AWS creds
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_DEFAULT_REGION=us-east-1
+
+# Paths (relative to project root)
+JDBC_SINK_JARS=./kconnect-jdbc-sink-jars
+S3_SINK_JARS=./kconnect-s3-sink-jars
+CONNECT_TRANSFORMS=./confluentic-connect-transforms
+FAST_API=./fast_api
+MODELS=./models
+NOTEBOOKS=./notebooks
+SAVED_MODEL=./models/Logistic_Regression.pkl
+
+
+
+MSSQL_HOST=stroke-pred-api-v1.c0lswie66uam.us-east-1.rds.amazonaws.com
+MSSQL_PORT=1433
+MSSQL_DB=stroke_predictions_sink
+MSSQL_USER=admin
+MSSQL_PASSWORD=
+
+S3_BUCKET=mlops-dbz-sink
+SCHEMA_REGISTRY_URL=http://schema-registry:8081
+AWS_REGION=us-east-1
