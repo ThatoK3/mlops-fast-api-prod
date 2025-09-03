@@ -52,6 +52,9 @@ def init_db():
             avg_glucose_level FLOAT,
             bmi FLOAT,
             smoking_status VARCHAR(20),
+            name VARCHAR(100),
+            country VARCHAR(50),
+            province VARCHAR(50),
             probability FLOAT,
             risk_category VARCHAR(10),
             contributing_factors JSON,
@@ -85,6 +88,9 @@ class PatientData(BaseModel):
     avg_glucose_level: float
     bmi: float
     smoking_status: str
+    name: str
+    country: str
+    province: str
     age_group: Optional[str] = None
     bmi_category: Optional[str] = None
     glucose_category: Optional[str] = None
@@ -99,9 +105,10 @@ def save_prediction_to_db(data: dict, prediction_result: dict):
         INSERT INTO predictions (
             gender, age, hypertension, heart_disease,
             avg_glucose_level, bmi, smoking_status,
+            name, country, province,
             probability, risk_category, contributing_factors,
             prediction_data
-        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
         cursor.execute(insert_query, (
             data['gender'],
@@ -111,6 +118,9 @@ def save_prediction_to_db(data: dict, prediction_result: dict):
             data['avg_glucose_level'],
             data['bmi'],
             data['smoking_status'],
+            data['name'],
+            data['country'],
+            data['province'],
             prediction_result['probability'],
             prediction_result['risk_category'],
             json.dumps(prediction_result['contributing_factors']),
