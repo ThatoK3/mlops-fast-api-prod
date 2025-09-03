@@ -3,7 +3,7 @@ version: "3.8"
 services:
   # ================= MySQL =================
   mysql:
-    image: thatojoe/mysql
+    image: quay.io/debezium/example-mysql:1.9
     ports:
       - "3306:3306"
     environment:
