@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+set -e
+
 docker compose down
 sleep 5s
 source .env
@@ -16,9 +19,11 @@ sleep 30s
 bash mssql-sink-connect.sh
 
 sleep 30s
+curl -s http://localhost:8083/connectors/mssql-sink-predictions/status | jq
+
+sleep 30s
 bash register-s3-sink.sh
 
 sleep 30s
-curl -s http://localhost:8083/connectors/
-
+curl -s http://localhost:8083/connectors/s3-sink-stroke-predictions/status | jq
 

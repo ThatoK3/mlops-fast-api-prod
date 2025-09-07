@@ -11,9 +11,6 @@ from mysql.connector import Error
 import json
 import time
 
-# Load environment variables
-load_dotenv(dotenv_path=".env")
-
 app = FastAPI(title="Stroke Prediction API",
               description="API for predicting stroke risk based on health metrics",
               version="1.0")
@@ -23,9 +20,9 @@ def get_db_connection(retries=5, delay=5):
     for attempt in range(retries):
         try:
             return mysql.connector.connect(
-                host="mysql",  # Changed from "localhost" to service name "mysql"
-                port="3306",
-                database="stroke_predictions",
+                host=os.getenv("MYSQL_HOST"),
+                port=os.getenv("MYSQL_PORT"),
+                database=os.getenv("MYSQL_DATABASE"),
                 user="root",
                 password="debezium"
             )

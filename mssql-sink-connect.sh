@@ -111,4 +111,3 @@ done
 echo "Setup completed!"
 
 sleep 10s
-curl http://localhost:8083/connectors/mssql-sink-predictions/status | jq
