@@ -16,7 +16,7 @@ app = FastAPI(title="Stroke Prediction API",
               version="1.0")
 
 # Database connection function
-def get_db_connection(retries=5, delay=5):
+def get_db_connection(retries=10, delay=45):
     for attempt in range(retries):
         try:
             return mysql.connector.connect(
