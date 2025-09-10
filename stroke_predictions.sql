@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.43, for Linux (x86_64)
 --
--- Host: 172.31.81.42    Database: stroke_predictions
+-- Host: 172.31.81.42   Database: stroke_predictions
 -- ------------------------------------------------------
 -- Server version	8.0.35
 
