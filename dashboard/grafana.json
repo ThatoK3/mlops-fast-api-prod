@@ -1,0 +1,1178 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 2,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 7,
+      "panels": [],
+      "title": "Risk Distribution",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "mssql",
+        "uid": "fext7ylu3kb28c"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 11,
+        "x": 0,
+        "y": 1
+      },
+      "id": 1,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "calcs": [],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "values": []
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "allValues"
+          ],
+          "fields": "/^pct$/",
+          "values": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.1.1",
+      "targets": [
+        {
+          "dataset": "stroke_predictions_sink",
+          "datasource": {
+            "type": "mssql",
+            "uid": "fext7ylu3kb28c"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "USE stroke_predictions_sink;\r\nSELECT risk_category, \r\n       ROUND(100.0 * COUNT(*) / SUM(COUNT(*)) OVER(), 2) AS pct\r\nFROM predictions\r\nGROUP BY risk_category;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Overall distribution by risk_category",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "mssql",
+        "uid": "fext7ylu3kb28c"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 13,
+        "x": 11,
+        "y": 1
+      },
+      "id": 2,
+      "options": {
+        "displayMode": "lcd",
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "maxVizHeight": 300,
+        "minVizHeight": 16,
+        "minVizWidth": 8,
+        "namePlacement": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [],
+          "fields": "",
+          "values": true
+        },
+        "showUnfilled": true,
+        "sizing": "auto",
+        "valueMode": "color"
+      },
+      "pluginVersion": "12.1.1",
+      "targets": [
+        {
+          "dataset": "inventory",
+          "datasource": {
+            "type": "mssql",
+            "uid": "fext7ylu3kb28c"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "USE stroke_predictions_sink;\r\nSELECT \r\n    CASE \r\n        WHEN probability < 0.2 THEN '0.0 - 0.2'\r\n        WHEN probability < 0.4 THEN '0.2 - 0.4'\r\n        WHEN probability < 0.6 THEN '0.4 - 0.6'\r\n        WHEN probability < 0.8 THEN '0.6 - 0.8'\r\n        ELSE '0.8 - 1.0'\r\n    END AS prob_bucket,\r\n    COUNT(*) AS total\r\nFROM predictions\r\nGROUP BY CASE \r\n            WHEN probability < 0.2 THEN '0.0 - 0.2'\r\n            WHEN probability < 0.4 THEN '0.2 - 0.4'\r\n            WHEN probability < 0.6 THEN '0.4 - 0.6'\r\n            WHEN probability < 0.8 THEN '0.6 - 0.8'\r\n            ELSE '0.8 - 1.0'\r\n         END;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Stroke Probability bins",
+      "type": "bargauge"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 11
+      },
+      "id": 8,
+      "panels": [],
+      "title": "Demographic Insights",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "mssql",
+        "uid": "fext7ylu3kb28c"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-RdYlGr"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 56,
+            "gradientMode": "scheme",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "line"
+            }
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 11,
+        "x": 0,
+        "y": 12
+      },
+      "id": 3,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "never",
+        "stacking": "normal",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "12.1.1",
+      "targets": [
+        {
+          "dataset": "inventory",
+          "datasource": {
+            "type": "mssql",
+            "uid": "fext7ylu3kb28c"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "USE stroke_predictions_sink;\r\n\r\nSELECT \r\n    gender,\r\n    SUM(CASE WHEN risk_category = 'High' THEN 1 ELSE 0 END) AS high_risk,\r\n    SUM(CASE WHEN risk_category = 'Medium' THEN 1 ELSE 0 END) AS medium_risk,\r\n    SUM(CASE WHEN risk_category = 'Low' THEN 1 ELSE 0 END) AS low_risk\r\nFROM predictions\r\nWHERE gender!='Other'\r\nGROUP BY gender\r\nORDER BY gender;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Risk by gender",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "mssql",
+        "uid": "fext7ylu3kb28c"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "#EAB839",
+                "value": 400
+              },
+              {
+                "color": "red",
+                "value": 800
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 13,
+        "x": 11,
+        "y": 12
+      },
+      "id": 9,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "never",
+        "stacking": "none",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "12.1.1",
+      "targets": [
+        {
+          "dataset": "inventory",
+          "datasource": {
+            "type": "mssql",
+            "uid": "fext7ylu3kb28c"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "USE stroke_predictions_sink;\r\n\r\nSELECT \r\n    CASE \r\n        WHEN age < 30 THEN 'Under 30'\r\n        WHEN age BETWEEN 30 AND 45 THEN '30-45'\r\n        WHEN age BETWEEN 46 AND 60 THEN '46-60'\r\n        ELSE '60+'\r\n    END AS age_group,\r\n    risk_category,\r\n    COUNT(*) AS total\r\nFROM predictions\r\nGROUP BY \r\n    CASE \r\n        WHEN age < 30 THEN 'Under 30'\r\n        WHEN age BETWEEN 30 AND 45 THEN '30-45'\r\n        WHEN age BETWEEN 46 AND 60 THEN '46-60'\r\n        ELSE '60+'\r\n    END,\r\n    risk_category;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Risk by age group",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "mssql",
+        "uid": "fext7ylu3kb28c"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-RdYlGr"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 40,
+            "gradientMode": "scheme",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 24,
+        "x": 0,
+        "y": 22
+      },
+      "id": 5,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true
+        },
+        "orientation": "vertical",
+        "showValue": "never",
+        "stacking": "normal",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "12.1.1",
+      "targets": [
+        {
+          "dataset": "inventory",
+          "datasource": {
+            "type": "mssql",
+            "uid": "fext7ylu3kb28c"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "USE stroke_predictions_sink;\r\n\r\nSELECT \r\n    province,\r\n    SUM(CASE WHEN risk_category = 'High' THEN 1 ELSE 0 END) AS high_risk,\r\n    SUM(CASE WHEN risk_category = 'Medium' THEN 1 ELSE 0 END) AS medium_risk,\r\n    SUM(CASE WHEN risk_category = 'Low' THEN 1 ELSE 0 END) AS low_risk\r\nFROM predictions\r\nWHERE country = 'South Africa'\r\nGROUP BY province\r\nORDER BY province;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Province hotspots",
+      "type": "barchart"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 35
+      },
+      "id": 6,
+      "panels": [],
+      "title": "Clinical Feature Insights",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "mssql",
+        "uid": "fext7ylu3kb28c"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 36
+      },
+      "id": 11,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "12.1.1",
+      "targets": [
+        {
+          "dataset": "inventory",
+          "datasource": {
+            "type": "mssql",
+            "uid": "fext7ylu3kb28c"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "use stroke_predictions_sink;\r\nSELECT \r\n    hypertension,\r\n    heart_disease,\r\n    SUM(CASE WHEN risk_category = 'Low' THEN 1 ELSE 0 END)    AS low_risk,\r\n    CAST(100.0 * SUM(CASE WHEN risk_category = 'Low' THEN 1 ELSE 0 END) \r\n         / COUNT(*) AS DECIMAL(5,2)) AS low_pct,\r\n    \r\n    SUM(CASE WHEN risk_category = 'Medium' THEN 1 ELSE 0 END) AS medium_risk,\r\n    CAST(100.0 * SUM(CASE WHEN risk_category = 'Medium' THEN 1 ELSE 0 END) \r\n         / COUNT(*) AS DECIMAL(5,2)) AS medium_pct,\r\n    \r\n    SUM(CASE WHEN risk_category = 'High' THEN 1 ELSE 0 END)   AS high_risk,\r\n    CAST(100.0 * SUM(CASE WHEN risk_category = 'High' THEN 1 ELSE 0 END) \r\n         / COUNT(*) AS DECIMAL(5,2)) AS high_pct,\r\n    \r\n    COUNT(*) AS total\r\nFROM predictions\r\nGROUP BY hypertension, heart_disease\r\nORDER BY hypertension, heart_disease;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Hypertension & Heart Disease correlation",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "mssql",
+        "uid": "fext7ylu3kb28c"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 14,
+        "w": 12,
+        "x": 0,
+        "y": 43
+      },
+      "id": 12,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "12.1.1",
+      "targets": [
+        {
+          "dataset": "inventory",
+          "datasource": {
+            "type": "mssql",
+            "uid": "fext7ylu3kb28c"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "use stroke_predictions_sink;\r\nSELECT \r\n    CASE \r\n        WHEN bmi < 18.5 THEN 'Underweight'\r\n        WHEN bmi < 25 THEN 'Healthy'\r\n        WHEN bmi < 30 THEN 'Overweight'\r\n        ELSE 'Obese'\r\n    END AS bmi_category,\r\n    risk_category,\r\n    COUNT(*) AS total,\r\n    CAST(\r\n        100.0 * COUNT(*) \r\n        / SUM(COUNT(*)) OVER (\r\n            PARTITION BY \r\n                CASE \r\n                    WHEN bmi < 18.5 THEN 'Underweight'\r\n                    WHEN bmi < 25 THEN 'Healthy'\r\n                    WHEN bmi < 30 THEN 'Overweight'\r\n                    ELSE 'Obese'\r\n                END\r\n        ) \r\n        AS DECIMAL(5,2)\r\n    ) AS pct\r\nFROM predictions\r\nGROUP BY \r\n    CASE \r\n        WHEN bmi < 18.5 THEN 'Underweight'\r\n        WHEN bmi < 25 THEN 'Healthy'\r\n        WHEN bmi < 30 THEN 'Overweight'\r\n        ELSE 'Obese'\r\n    END,\r\n    risk_category\r\nORDER BY bmi_category, risk_category;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "BMI vs Risk",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "mssql",
+        "uid": "fext7ylu3kb28c"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 14,
+        "w": 12,
+        "x": 12,
+        "y": 43
+      },
+      "id": 13,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "12.1.1",
+      "targets": [
+        {
+          "dataset": "inventory",
+          "datasource": {
+            "type": "mssql",
+            "uid": "fext7ylu3kb28c"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "use stroke_predictions_sink;\r\nSELECT \r\n    CASE \r\n        WHEN avg_glucose_level < 100 THEN 'Normal'\r\n        WHEN avg_glucose_level < 126 THEN 'Prediabetic'\r\n        ELSE 'Diabetic'\r\n    END AS glucose_category,\r\n    risk_category,\r\n    COUNT(*) AS total,\r\n    CAST(\r\n        100.0 * COUNT(*) \r\n        / SUM(COUNT(*)) OVER (\r\n            PARTITION BY \r\n                CASE \r\n                    WHEN avg_glucose_level < 100 THEN 'Normal'\r\n                    WHEN avg_glucose_level < 126 THEN 'Prediabetic'\r\n                    ELSE 'Diabetic'\r\n                END\r\n        )\r\n        AS DECIMAL(5,2)\r\n    ) AS pct\r\nFROM predictions\r\nGROUP BY \r\n    CASE \r\n        WHEN avg_glucose_level < 100 THEN 'Normal'\r\n        WHEN avg_glucose_level < 126 THEN 'Prediabetic'\r\n        ELSE 'Diabetic'\r\n    END,\r\n    risk_category\r\nORDER BY glucose_category, risk_category;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Glucose level risk bands",
+      "type": "table"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 57
+      },
+      "id": 14,
+      "panels": [
+        {
+          "datasource": {
+            "type": "mssql",
+            "uid": "fext7ylu3kb28c"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": 0
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 80
+          },
+          "id": 15,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "hideZeros": false,
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "12.1.1",
+          "targets": [
+            {
+              "dataset": "inventory",
+              "datasource": {
+                "type": "mssql",
+                "uid": "fext7ylu3kb28c"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "use stroke_predictions_sink;\r\nWITH converted AS (\r\n  SELECT\r\n    DATEADD(\r\n      SECOND,\r\n      CAST(CAST([timestamp] AS BIGINT) / 1000 AS BIGINT),\r\n      '1970-01-01'\r\n    ) AS prediction_second,\r\n    risk_category\r\n  FROM [stroke_predictions_sink].[dbo].[predictions]\r\n)\r\nSELECT\r\n  prediction_second,\r\n  risk_category,\r\n  COUNT(*) AS total,\r\n  CAST(\r\n    ROUND(100.0 * COUNT(*) / SUM(COUNT(*)) OVER (PARTITION BY prediction_second), 2)\r\n    AS DECIMAL(5,2)\r\n  ) AS pct\r\nFROM converted\r\nGROUP BY prediction_second, risk_category\r\nORDER BY prediction_second, risk_category;\r\n",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "Predictions per time",
+          "type": "timeseries"
+        }
+      ],
+      "title": "Time-Series Trends",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 58
+      },
+      "id": 16,
+      "panels": [
+        {
+          "datasource": {
+            "type": "mssql",
+            "uid": "fext7ylu3kb28c"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": 0
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 14,
+            "w": 12,
+            "x": 0,
+            "y": 11
+          },
+          "id": 18,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true
+          },
+          "pluginVersion": "12.1.1",
+          "targets": [
+            {
+              "dataset": "inventory",
+              "datasource": {
+                "type": "mssql",
+                "uid": "fext7ylu3kb28c"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "use stroke_predictions_sink;\r\nSELECT id, name, age, bmi, avg_glucose_level, probability, risk_category\r\nFROM predictions\r\nWHERE (bmi > 35 OR avg_glucose_level > 150)\r\n  AND risk_category = 'Low';",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "Extreme BMI or glucose with low risk (potential misclassification flag)",
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "mssql",
+            "uid": "fext7ylu3kb28c"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": 0
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 14,
+            "w": 11,
+            "x": 12,
+            "y": 11
+          },
+          "id": 17,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true
+          },
+          "pluginVersion": "12.1.1",
+          "targets": [
+            {
+              "dataset": "inventory",
+              "datasource": {
+                "type": "mssql",
+                "uid": "fext7ylu3kb28c"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "use stroke_predictions_sink;\r\nSELECT TOP 10 id, name, age, gender, probability, risk_category\r\nFROM predictions\r\nORDER BY probability DESC;",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "Top 10 highest probability cases",
+          "type": "table"
+        }
+      ],
+      "title": "Outlier Detection",
+      "type": "row"
+    }
+  ],
+  "preload": false,
+  "schemaVersion": 41,
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "2025-09-02T22:00:00.000Z",
+    "to": "2025-09-03T21:00:00.000Z"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Stroke Predictions Data Insights",
+  "uid": "7806f08e-c4a5-4e22-8316-691c3561b84d",
+  "version": 66
+}
