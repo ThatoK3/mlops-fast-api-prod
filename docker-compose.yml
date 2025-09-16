@@ -52,16 +52,19 @@ services:
     image: quay.io/debezium/connect:1.9
     ports:
       - "8083:8083"
+      - "9400:9400"
     environment:
       - BOOTSTRAP_SERVERS=kafka:9092
       - GROUP_ID=1
       - CONFIG_STORAGE_TOPIC=my_connect_configs
       - OFFSET_STORAGE_TOPIC=my_connect_offsets
       - STATUS_STORAGE_TOPIC=my_connect_statuses
+      - KAFKA_OPTS=-javaagent:/kafka/connect/jmx_exporter/jmx_prometheus_javaagent-0.19.0.jar=9400:/kafka/connect/jmx_exporter/config.yaml
     volumes: 
       - ${PWD}/kconnect-jdbc-sink-jars:/kafka/connect/kconnect-jdbc-sink-jars
       - ${PWD}/kconnect-s3-sink-jars:/kafka/connect/kconnect-s3-sink-jars
       - ${PWD}/confluentic-connect-transforms:/kafka/connect/confluentic-connect-transforms
+      - ${PWD}/jmx_exporter:/kafka/connect/jmx_exporter
     networks:
       - app-network
     depends_on:
