@@ -1,5 +1,5 @@
-MLOps Stroke Prediction FastAPI Production Platform
-A comprehensive machine learning operations platform featuring FastAPI model serving, real-time data streaming with Kafka Connect, and distributed processing with Apache Spark. This production-ready solution provides end-to-end ML pipeline automation with infrastructure-as-code deployment.
+MLOps FastAPI Production Platform
+A comprehensive machine learning operations platform for stroke prediction, featuring FastAPI model serving, real-time data streaming with Kafka Connect, and distributed processing with Apache Spark. This production-ready solution provides end-to-end ML pipeline automation with infrastructure-as-code deployment.
 
 🌟 Key Features
 Production Model Serving: FastAPI-based REST API for stroke prediction model
@@ -14,17 +14,54 @@ Monitoring Integration: Prometheus metrics collection with JMX exporters
 
 Containerized Deployment: Docker Compose for multi-service environment management
 
-Data Validation: Comprehensive testing suite for API and data quality
+Data Persistence: MySQL database for prediction storage and CDC sourcing
 
 🏗️ System Architecture
 text
 Data Flow:
-MySQL (Source) → Debezium CDC → Kafka → [MSSQL Sink, S3 Sink, Spark Processing]
-                         ↗
-FastAPI Predictions → MySQL
+FastAPI → MySQL → Debezium CDC → Kafka → [MSSQL Sink, S3 Sink, Spark Processing]
 
 Infrastructure:
 AWS EC2 → Docker → Multi-Service Container Platform
+📊 Data Schema
+Input Data Format
+The API accepts patient data in the following format:
+
+json
+{
+  "gender": "Male",
+  "age": 60,
+  "hypertension": 0,
+  "heart_disease": 1,
+  "avg_glucose_level": 118.7,
+  "bmi": 22.0,
+  "smoking_status": "never smoked",
+  "name": "Michael White",
+  "country": "South Africa",
+  "province": "Eastern Cape"
+}
+Database Schema
+Predictions are stored in a MySQL table with the following structure:
+
+sql
+CREATE TABLE predictions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    gender VARCHAR(10),
+    age FLOAT,
+    hypertension TINYINT(1),
+    heart_disease TINYINT(1),
+    avg_glucose_level FLOAT,
+    bmi FLOAT,
+    smoking_status VARCHAR(20),
+    name VARCHAR(100),
+    country VARCHAR(50),
+    province VARCHAR(50),
+    probability FLOAT,
+    risk_category VARCHAR(10),
+    contributing_factors JSON,
+    prediction_data JSON
+)
 📦 Container Services Overview
 Database Layer
 MySQL Container (quay.io/debezium/example-mysql:1.9)
@@ -117,17 +154,17 @@ Role: Schema management for structured data streaming
 Application Layer
 FastAPI Application Container (Custom built)
 
-Purpose: Machine learning model serving API
+Purpose: Machine learning model serving API for stroke prediction
 
 Port: 8000 (HTTP API)
 
 Features:
 
-RESTful API for stroke prediction model
+RESTful API with Logistic Regression model
 
-Automatic reload during development
+Automatic feature engineering (age groups, BMI categories, glucose categories)
 
-Integrated with MySQL database for data persistence
+Database integration for prediction storage
 
 Health checks and model information endpoints
 
@@ -195,16 +232,24 @@ app-network: Connects all primary application services including database, Kafka
 
 spark-network: Isolated network for Spark cluster communication and distributed processing
 
-🔄 Inter-Service Communication
-FastAPI → MySQL: API stores prediction results in MySQL database
+🔄 Data Pipeline Flow
+Data Ingestion: API receives patient data via POST requests
 
-Debezium → MySQL: CDC connector monitors MySQL binary logs for changes
+Prediction: Logistic Regression model calculates stroke risk probability
 
-Kafka Connect → Kafka: Connectors produce/consume messages from Kafka topics
+Storage: Predictions stored in MySQL database with full context
 
-Spark → Kafka: PySpark can consume messages for real-time processing
+CDC Capture: Debezium monitors MySQL binary logs for changes
 
-All Services → Schema Registry: Validate message schemas for data consistency
+Stream Processing: Changes stream through Kafka topics
+
+Data Sinking:
+
+MSSQL Sink: Real-time replication to MSSQL database
+
+S3 Sink: Archival to AWS S3 bucket in optimized format
+
+Spark Processing: Optional real-time processing with PySpark
 
 🚀 Quick Start
 Prerequisites
@@ -231,9 +276,6 @@ docker-compose up -d
 
 # Initialize database
 bash upload_db_data.sh
-
-# Run tests
-python -m pytest tests/
 
 # Access services
 # FastAPI: http://localhost:8000
@@ -294,58 +336,42 @@ MODELS=./models
 SAVED_MODEL=./models/Logistic_Regression.pkl
 📊 API Endpoints
 FastAPI Service (Port 8000)
-Endpoint	Method	Description
-/	GET	Health check endpoint
-/docs	GET	Interactive API documentation
-/model_info	GET	Get model information and metadata
-/api/v1/predict	POST	Make stroke prediction with input data
+Endpoint	Method	Description	Example Response
+/	GET	Health check endpoint	{"message": "Stroke Prediction API"}
+/docs	GET	Interactive API documentation	Swagger UI
+/model_info	GET	Get model information and metadata	{"model_type": "LogisticRegression"}
+/api/v1/predict	POST	Make stroke prediction with input data	{"probability": 0.45, "risk_category": "Medium", "prediction_id": 123}
+/predictions	GET	Retrieve recent predictions	List of prediction records
 Example API Request
 bash
-curl -X POST "http://localhost:8000/api/v1/predict" \
+curl -X POST "http://localhost:8000/predict" \
   -H "Content-Type: application/json" \
   -d '{
-    "age": 45,
+    "gender": "Male",
+    "age": 60,
     "hypertension": 0,
-    "heart_disease": 0,
-    "avg_glucose_level": 85.25,
-    "bmi": 24.5,
-    "gender_Female": 1,
-    "gender_Male": 0,
-    "ever_married_No": 0,
-    "ever_married_Yes": 1,
-    "work_type_Govt_job": 0,
-    "work_type_Never_worked": 0,
-    "work_type_Private": 1,
-    "work_type_Self-employed": 0,
-    "work_type_children": 0,
-    "Residence_type_Rural": 1,
-    "Residence_type_Urban": 0,
-    "smoking_status_Unknown": 0,
-    "smoking_status_formerly smoked": 0,
-    "smoking_status_never smoked": 1,
-    "smoking_status_smokes": 0
+    "heart_disease": 1,
+    "avg_glucose_level": 118.7,
+    "bmi": 22.0,
+    "smoking_status": "never smoked",
+    "name": "Michael White",
+    "country": "South Africa",
+    "province": "Eastern Cape"
   }'
-🔄 Data Pipeline
-Change Data Capture Flow
-Data Insertion: Applications write stroke prediction data to MySQL
-
-CDC Capture: Debezium MySQL connector captures database changes
-
-Kafka Streaming: Changes stream through Kafka topics
-
-Data Sinking:
-
-MSSQL Sink: Real-time replication to MSSQL database
-
-S3 Sink: Archival to AWS S3 bucket in Parquet format
-
-Spark Processing: Optional real-time processing with PySpark
-
-Connector Setup Scripts
+Example Response
+json
+{
+  "probability": 0.45,
+  "risk_category": "Medium",
+  "contributing_factors": ["age", "avg_glucose_level", "bmi"],
+  "prediction_id": 123
+}
+🔄 Data Pipeline Setup
+Connector Configuration Scripts
 The platform includes automated scripts for connector configuration:
 
 bash
-# Register MySQL source connector
+# Register MySQL source connector (Debezium CDC)
 bash dbz-register-mysql-source.sh
 
 # Register MSSQL sink connector  
@@ -353,27 +379,12 @@ bash dbz-register-mssql-sink.sh
 
 # Register S3 sink connector
 bash dbz-register-s3-sink.sh
-🧪 Testing
-Running Tests
-bash
-# Run all tests
-python -m pytest tests/
+Connector Functions
+MySQL Source Connector: Captures changes from MySQL predictions table
 
-# Run with verbose output
-python -m pytest tests/ -v
+MSSQL Sink Connector: Replicates data to MSSQL for reporting and analytics
 
-# Run specific test file
-python -m pytest tests/test_api.py
-Test Coverage
-The test suite includes:
-
-API endpoint validation
-
-Model prediction functionality
-
-Database connection testing
-
-Error handling scenarios
+S3 Sink Connector: Archives data to S3 for long-term storage and batch processing
 
 📈 Monitoring & Metrics
 Available Endpoints
@@ -387,40 +398,38 @@ Jupyter	9999	/	Notebook interface
 Prometheus Integration
 The JMX exporter configuration in jmx_exporter/config.yaml enables monitoring of:
 
-Kafka Connect metrics
+Kafka Connect metrics and performance
 
-JVM performance indicators
+JVM performance indicators and garbage collection
 
-Connector status and throughput
+Connector status, throughput, and error rates
+
+System resource utilization
 
 🚀 Production Deployment
 Jenkins Pipeline
 The Jenkinsfile defines a complete CI/CD pipeline that:
 
-Generates Unique Resources: Creates uniquely tagged EC2 instances and security groups
+Infrastructure Provisioning: Creates EC2 instances with proper networking
 
-Cleans Up Previous Deployments: Removes old instances and security groups
+Environment Setup: Installs Docker, dependencies, and monitoring tools
 
-Provisions Infrastructure: Launches EC2 instances with proper networking
+Service Deployment: Uses Docker Compose for multi-service deployment
 
-Configures Environment: Installs Docker, dependencies, and monitoring tools
+Data Pipeline Setup: Configures Kafka Connect connectors
 
-Deploys Services: Uses Docker Compose for multi-service deployment
+Monitoring Configuration: Sets up Prometheus for metrics collection
 
-Sets Up Data Pipeline: Configures Kafka Connect connectors
-
-Configures Monitoring: Sets up Prometheus for metrics collection
-
-Validates Deployment: Runs health checks and service validation
+Validation: Runs health checks and service validation
 
 AWS Requirements
 VPC with appropriate subnets in us-east-1
 
-EC2 launch template (lt-0b64c4af9d5f19bd8) and AMI (ami-020cba7c55df1f615)
+EC2 launch template and AMI configured for Docker
 
 RDS MSSQL instance for data sinking
 
-S3 bucket (mlops-dbz-sink) for data archival
+S3 bucket for data archival
 
 Proper security groups and IAM roles
 
@@ -431,32 +440,22 @@ aws-jenkins-creds: AWS access credentials
 
 mlops-ssh-key: EC2 SSH private key
 
-mlflow-experiments-db-creds: MySQL user credentials
-
-mlflow-experiments-db-root-user-creds: MySQL root credentials
-
-aws-mssql-db-stroke-pred-api-v1: MSSQL database credentials
+Database credentials for MySQL and MSSQL
 
 🛠️ Development Guide
-Adding New Models
+Model Management
 Place model files in models/ directory
 
 Update model loading in app/core/model.py
 
-Add corresponding API endpoints in app/api/endpoints/
+Ensure feature engineering matches training pipeline
 
-Update tests in tests/test_api.py
+Adding New Features
+Update the PatientData Pydantic model in main.py
 
-Custom Connectors
-To add new Kafka Connect connectors:
+Add corresponding feature engineering logic
 
-Place JAR files in appropriate connector directories
-
-Update connector configuration scripts
-
-Modify volume mounts in docker-compose.yml
-
-Test connector registration
+Test with sample data to ensure compatibility
 
 Database Schema Changes
 Update init/init.sql with schema changes
@@ -519,15 +518,13 @@ Push to branch (git push origin feature/amazing-feature)
 Open a Pull Request
 
 Development Guidelines
-Write tests for new functionality
-
-Update documentation for new features
-
 Follow existing code style and patterns
 
 Verify Docker Compose still works correctly
 
 Test the Jenkins pipeline if making infrastructure changes
+
+Update documentation for new features
 
 📄 License
 This project is licensed under the MIT License - see the LICENSE file for details.
@@ -544,3 +541,10 @@ Verify environment variable configuration
 Ensure all prerequisite services are running
 
 Examine the Jenkins pipeline output for deployment issues
+
+🔗 Related Projects
+MLOps FastAPI Dev & Test: Development and testing repository
+
+Grafana Prometheus Monitoring: Monitoring infrastructure
+
+MLOps Main Repository: Main project repository
