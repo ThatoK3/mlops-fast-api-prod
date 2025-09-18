@@ -1,82 +1,50 @@
-MLOps FastAPI Production Platform
-A comprehensive machine learning operations platform for stroke prediction, featuring FastAPI model serving, real-time data streaming with Kafka Connect, and distributed processing with Apache Spark. This production-ready solution provides end-to-end ML pipeline automation with infrastructure-as-code deployment.
-
-Key Features
-Production Model Serving: FastAPI-based REST API for stroke prediction model
-
-Real-time CDC Pipeline: Debezium-powered Change Data Capture with MySQL to MSSQL/S3 streaming
-
-Distributed Processing: Apache Spark cluster with PySpark Jupyter notebooks
-
-Infrastructure Automation: Complete Jenkins pipeline for AWS EC2 provisioning and deployment
-
-Monitoring Integration: Prometheus metrics collection with JMX exporters
-
-Containerized Deployment: Docker Compose for multi-service environment management
-
-Data Persistence: MySQL database for prediction storage and CDC sourcing
-
-System Architecture
+MLOps FastAPI Srtoke Prediction Production Platform Project
+🏗️ System Architecture Overview
 text
 Data Flow:
 FastAPI → MySQL → Debezium CDC → Kafka → [MSSQL Sink, S3 Sink, Spark Processing]
 
-Infrastructure:
-AWS EC2 → Docker → Multi-Service Container Platform
-Data Schema
-Input Data Format
-The API accepts patient data in the following format:
-
-json
-{
-  "gender": "Male",
-  "age": 60,
-  "hypertension": 0,
-  "heart_disease": 1,
-  "avg_glucose_level": 118.7,
-  "bmi": 22.0,
-  "smoking_status": "never smoked",
-  "name": "Michael White",
-  "country": "South Africa",
-  "province": "Eastern Cape"
-}
-Database Schema
-Predictions are stored in a MySQL table with the following structure:
-
-sql
-CREATE TABLE predictions (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-    gender VARCHAR(10),
-    age FLOAT,
-    hypertension TINYINT(1),
-    heart_disease TINYINT(1),
-    avg_glucose_level FLOAT,
-    bmi FLOAT,
-    smoking_status VARCHAR(20),
-    name VARCHAR(100),
-    country VARCHAR(50),
-    province VARCHAR(50),
-    probability FLOAT,
-    risk_category VARCHAR(10),
-    contributing_factors JSON,
-    prediction_data JSON
-)
-Container Services Overview
+Container Network:
+app-network: mysql ↔ zookeeper ↔ kafka ↔ connect ↔ schema-registry ↔ stroke-prediction-api
+spark-network: spark ↔ spark-worker-1 ↔ pyspark
+📦 Container Services Detailed Breakdown
 Database Layer
 MySQL Container (quay.io/debezium/example-mysql:1.9)
 
+text
+┌─────────────────────────────────────────────────┐
+│                   MySQL                         │
+│                                                 │
+│  Port: 3306                                     │
+│  Role: Primary data store with CDC enabled      │
+│  Features:                                      │
+│    - Pre-configured for Debezium CDC            │
+│    - Automatic schema initialization            │
+│    - Health monitoring                          │
+│    - Persistent storage                         │
+└─────────────────────────────────────────────────┘
 Purpose: Primary relational database for stroke prediction data
 
 Port: 3306 (MySQL protocol)
 
-Features: Pre-configured for Debezium CDC with binary logging enabled, health checks, automatic initialization
+Features: Pre-configured for Debezium CDC with binary logging, health checks, automatic initialization
 
 Role: Serves as the source database for Change Data Capture
 
 Kafka Ecosystem
 Zookeeper Container (confluentinc/cp-zookeeper:5.5.3)
 
+text
+┌─────────────────────────────────────────────────┐
+│                 Zookeeper                       │
+│                                                 │
+│  Port: 2181                                     │
+│  Role: Cluster coordination service             │
+│  Features:                                      │
+│    - Manages Kafka broker coordination          │
+│    - Stores metadata and configuration          │
+│    - Essential for cluster stability            │
+└─────────────────────────────────────────────────┘
 Purpose: Distributed coordination service for Kafka cluster
 
 Port: 2181 (Client connections)
@@ -85,6 +53,18 @@ Role: Foundation for Kafka distributed system
 
 Kafka Broker Container (confluentinc/cp-enterprise-kafka:5.5.3)
 
+text
+┌─────────────────────────────────────────────────┐
+│                   Kafka                         │
+│                                                 │
+│  Ports: 9092, 9991 (JMX)                       │
+│  Role: Distributed event streaming platform     │
+│  Features:                                      │
+│    - Real-time data streaming                   │
+│    - Topic partitions management                │
+│    - Message replication                        │
+│    - JMX monitoring                             │
+└─────────────────────────────────────────────────┘
 Purpose: Distributed event streaming platform
 
 Ports: 9092 (Kafka protocol), 9991 (JMX monitoring)
@@ -93,6 +73,18 @@ Role: Central message bus for all data streaming
 
 Kafka Connect Container (quay.io/debezium/connect:1.9)
 
+text
+┌─────────────────────────────────────────────────┐
+│               Kafka Connect                     │
+│                                                 │
+│  Ports: 8083 (REST), 9400 (JMX)                │
+│  Role: CDC and data integration framework       │
+│  Features:                                      │
+│    - Debezium CDC implementation                │
+│    - REST API for management                    │
+│    - JMX metrics for monitoring                 │
+│    - Custom connector support                   │
+└─────────────────────────────────────────────────┘
 Purpose: Framework for connecting Kafka with external systems
 
 Ports: 8083 (REST API), 9400 (JMX metrics)
@@ -101,6 +93,17 @@ Role: Executes CDC and data sinking operations
 
 Schema Registry Container (confluentinc/cp-schema-registry:5.5.3)
 
+text
+┌─────────────────────────────────────────────────┐
+│              Schema Registry                    │
+│                                                 │
+│  Port: 8081                                     │
+│  Role: Avro schema management                   │
+│  Features:                                      │
+│    - Schema storage and versioning              │
+│    - Schema validation                          │
+│    - Compatibility checking                     │
+└─────────────────────────────────────────────────┘
 Purpose: Manages Avro schema definitions and evolution
 
 Port: 8081 (HTTP API)
@@ -110,6 +113,18 @@ Role: Schema management for structured data streaming
 Application Layer
 FastAPI Application Container (Custom built)
 
+text
+┌─────────────────────────────────────────────────┐
+│               FastAPI Service                   │
+│                                                 │
+│  Port: 8000                                     │
+│  Role: ML model serving API                     │
+│  Features:                                      │
+│    - Stroke prediction model                    │
+│    - Automatic feature engineering              │
+│    - Database integration                       │
+│    - Interactive documentation                  │
+└─────────────────────────────────────────────────┘
 Purpose: Machine learning model serving API for stroke prediction
 
 Port: 8000 (HTTP API)
@@ -121,6 +136,17 @@ Role: Serves machine learning predictions to clients
 Data Processing Layer
 Spark Master Container (bitnami/spark:3.5.1)
 
+text
+┌─────────────────────────────────────────────────┐
+│               Spark Master                      │
+│                                                 │
+│  Ports: 7077, 8080 (Web UI)                    │
+│  Role: Cluster manager for Spark                │
+│  Features:                                      │
+│    - Resource allocation                        │
+│    - Job scheduling                             │
+│    - Web UI for monitoring                      │
+└─────────────────────────────────────────────────┘
 Purpose: Cluster manager for Spark distributed processing
 
 Ports: 7077 (Spark communication), 8080 (Web UI)
@@ -129,143 +155,125 @@ Role: Coordinates distributed data processing tasks
 
 Spark Worker Container (bitnami/spark:3.5.1)
 
+text
+┌─────────────────────────────────────────────────┐
+│               Spark Worker                      │
+│                                                 │
+│  Role: Distributed task execution               │
+│  Features:                                      │
+│    - Executes Spark tasks                       │
+│    - Configurable resources                     │
+│    - Fault tolerance                            │
+└─────────────────────────────────────────────────┘
 Purpose: Executes distributed data processing tasks
 
 Role: Performs actual data computation in distributed manner
 
 PySpark Jupyter Container (jupyter/pyspark-notebook:latest)
 
+text
+┌─────────────────────────────────────────────────┐
+│               Jupyter Notebook                  │
+│                                                 │
+│  Port: 9999                                     │
+│  Role: Interactive data science environment     │
+│  Features:                                      │
+│    - PySpark integration                        │
+│    - AWS S3 access                              │
+│    - Persistent notebook storage                │
+│    - Spark cluster access                       │
+└─────────────────────────────────────────────────┘
 Purpose: Interactive development environment for data science
 
 Port: 9999 (Jupyter Notebook interface)
 
 Role: Data exploration, model development, and analysis
 
-Quick Start
-Prerequisites
-Docker and Docker Compose
+🔄 Data Pipeline Flow
+text
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│   FastAPI   │    │    MySQL    │    │   Debezium  │    │    Kafka    │
+│             │    │             │    │             │    │             │
+│  Port 8000  │───▶│  Port 3306  │───▶│  Port 8083  │───▶│  Port 9092  │
+└─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
+                                                                   │
+                                                                   ▼
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│    S3 Sink  │    │ MSSQL Sink  │    │   Spark     │    │  Jupyter    │
+│             │    │             │    │             │    │             │
+│  AWS S3     │◀───│  MSSQL DB   │◀───│ Processing  │◀───│  Port 9999  │
+└─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
+Data Ingestion: API receives patient data via POST requests
 
-Python 3.8+
+Prediction: Logistic Regression model calculates stroke risk probability
 
-AWS Account (for full deployment)
+Storage: Predictions stored in MySQL database with full context
 
-Jenkins (for automated pipeline)
+CDC Capture: Debezium monitors MySQL binary logs for changes
 
-Local Development
-bash
-# Clone the repository
-git clone https://github.com/ThatoK3/mlops-fast-api-prod.git
-cd mlops-fast-api-prod
+Stream Processing: Changes stream through Kafka topics
 
-# Create environment file from template
-cp .env.example .env
-# Edit .env with your database and AWS credentials
+Data Sinking:
 
-# Start all services
-docker-compose up -d
+MSSQL Sink: Real-time replication to MSSQL database
 
-# Initialize database
-bash upload_db_data.sh
-Access Services
-FastAPI: http://localhost:8000
+S3 Sink: Archival to AWS S3 bucket in optimized format
 
-API Docs: http://localhost:8000/docs
+Spark Processing: Optional real-time processing with PySpark
 
-Jupyter: http://localhost:9999
+🚀 Deployment Method: Jenkins Pipeline
+This platform uses a sophisticated Jenkins pipeline for automated deployment rather than local execution scripts. The pipeline handles complete infrastructure provisioning, service deployment, and monitoring setup.
 
-Spark UI: http://localhost:8080
+Pipeline Overview
+The Jenkins pipeline automates the following stages:
 
-Kafka Connect: http://localhost:8083
+Infrastructure Provisioning: EC2 instance creation with proper networking
 
-Using the Run Script
-bash
-chmod +x run.sh
-./run.sh
-Configuration
-Environment Variables
-Create a .env file based on the provided template:
+Environment Setup: Docker installation and dependency management
 
-ini
-# Database Configuration
-MYSQL_ROOT_PASSWORD=your_root_password
-MYSQL_USER=your_mysql_user
-MYSQL_PASSWORD=your_mysql_password
-MYSQL_HOST=mysql
-MYSQL_PORT=3306
-MYSQL_DATABASE=stroke_predictions
+Service Deployment: Multi-container deployment with Docker Compose
 
-# MSSQL Configuration
-MSSQL_HOST=your-mssql-host
-MSSQL_PORT=1433
-MSSQL_DB=stroke_predictions_sink
-MSSQL_USER=your_user
-MSSQL_PASSWORD=your_password
+Data Pipeline Setup: Kafka Connect connector configuration
 
-# AWS Configuration
-AWS_ACCESS_KEY_ID=your_aws_key
-AWS_SECRET_ACCESS_KEY=your_aws_secret
-AWS_DEFAULT_REGION=us-east-1
-AWS_REGION=us-east-1
-S3_BUCKET=mlops-dbz-sink
+Monitoring Configuration: Prometheus and metrics setup
 
-# Application Paths
-JDBC_SINK_JARS=./kconnect-jdbc-sink-jars
-S3_SINK_JARS=./kconnect-s3-sink-jars
-CONNECT_TRANSFORMS=./confluentic-connect-transforms
-FAST_API=./fast_api
-MODELS=./models
-SAVED_MODEL=./models/Logistic_Regression.pkl
-API Endpoints
-FastAPI Service (Port 8000)
+Validation: Comprehensive health checks and service validation
+
+📋 Prerequisites
+AWS Infrastructure Requirements
+VPC with appropriate subnets in us-east-1
+
+EC2 launch template (lt-0b64c4af9d5f19bd8)
+
+AMI configured for Docker (ami-020cba7c55df1f615)
+
+RDS MSSQL instance for data sinking
+
+S3 bucket (mlops-dbz-sink) for data archival
+
+Proper security groups and IAM roles
+
+Jenkins Configuration
+The pipeline requires these Jenkins credentials:
+
+aws-jenkins-creds: AWS access credentials
+
+mlops-ssh-key: EC2 SSH private key
+
+mlflow-experiments-db-creds: MySQL user credentials
+
+mlflow-experiments-db-root-user-creds: MySQL root credentials
+
+aws-mssql-db-stroke-pred-api-v1: MSSQL database credentials
+
+📊 API Endpoints
 Endpoint	Method	Description
 /	GET	Health check endpoint
 /docs	GET	Interactive API documentation
 /model_info	GET	Get model information and metadata
 /predict	POST	Make stroke prediction with input data
 /predictions	GET	Retrieve recent predictions
-Example API Request
-bash
-curl -X POST "http://localhost:8000/predict" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "gender": "Male",
-    "age": 60,
-    "hypertension": 0,
-    "heart_disease": 1,
-    "avg_glucose_level": 118.7,
-    "bmi": 22.0,
-    "smoking_status": "never smoked",
-    "name": "Michael White",
-    "country": "South Africa",
-    "province": "Eastern Cape"
-  }'
-Example Response
-json
-{
-  "probability": 0.45,
-  "risk_category": "Medium",
-  "contributing_factors": ["age", "avg_glucose_level", "bmi"],
-  "prediction_id": 123
-}
-Data Pipeline Setup
-Connector Configuration Scripts
-bash
-# Register MySQL source connector (Debezium CDC)
-bash dbz-register-mysql-source.sh
-
-# Register MSSQL sink connector  
-bash dbz-register-mssql-sink.sh
-
-# Register S3 sink connector
-bash dbz-register-s3-sink.sh
-Connector Functions
-MySQL Source Connector: Captures changes from MySQL predictions table
-
-MSSQL Sink Connector: Replicates data to MSSQL for reporting and analytics
-
-S3 Sink Connector: Archives data to S3 for long-term storage and batch processing
-
-Monitoring & Metrics
+🔍 Monitoring & Metrics
 Available Endpoints
 Service	Port	Endpoint	Purpose
 FastAPI	8000	/	Health check
@@ -273,111 +281,83 @@ FastAPI	8000	/docs	API documentation
 Kafka Connect	8083	/connectors	Connector management
 JMX Metrics	9400	/metrics	Prometheus metrics
 Spark Master	8080	/	Spark cluster UI
-Jupyter	9999	/	Notebook interface
-Production Deployment
-Jenkins Pipeline
-The Jenkinsfile defines a complete CI/CD pipeline that:
-
-Infrastructure Provisioning: Creates EC2 instances with proper networking
-
-Environment Setup: Installs Docker, dependencies, and monitoring tools
-
-Service Deployment: Uses Docker Compose for multi-service deployment
-
-Data Pipeline Setup: Configures Kafka Connect connectors
-
-Monitoring Configuration: Sets up Prometheus for metrics collection
-
-Validation: Runs health checks and service validation
-
-AWS Requirements
-VPC with appropriate subnets in us-east-1
-
-EC2 launch template and AMI configured for Docker
-
-RDS MSSQL instance for data sinking
-
-S3 bucket for data archival
-
-Proper security groups and IAM roles
-
-Jenkins Credentials
-The pipeline requires these Jenkins credentials:
-
-aws-jenkins-creds: AWS access credentials
-
-mlops-ssh-key: EC2 SSH private key
-
-Database credentials for MySQL and MSSQL
-
-Troubleshooting
-Common Issues
-Database Connection Failures
-
-Verify credentials in .env file
-
-Check if MySQL container is running: docker-compose ps mysql
-
-Examine logs: docker-compose logs mysql
-
-Kafka Connect Errors
-
-Check connector status: curl http://localhost:8083/connectors/
-
-Examine connect logs: docker-compose logs connect
-
-API Deployment Issues
-
-Check FastAPI logs: docker-compose logs stroke-prediction-api
-
-Verify model file exists: ls models/Logistic_Regression.pkl
-
-Test API health: curl http://localhost:8000/
-
-Logs and Debugging
+🛠️ Maintenance and Operations
+Checking Service Status
 bash
-# View service logs
+# View container logs
 docker-compose logs [service_name]
-
-# Follow logs in real-time
-docker-compose logs -f [service_name]
 
 # Check service status
 docker-compose ps
 
-# Access running containers
-docker-compose exec [service_name] bash
-Contributing
-Fork the repository
+# Monitor Kafka topics
+docker-compose exec kafka kafka-topics --list --bootstrap-server kafka:9092
+Connector Management
+bash
+# List connectors
+curl http://localhost:8083/connectors/
 
-Create a feature branch (git checkout -b feature/amazing-feature)
+# Check connector status
+curl http://localhost:8083/connectors/[connector_name]/status
 
-Commit changes (git commit -m 'Add amazing feature')
+# Restart connector
+curl -X POST http://localhost:8083/connectors/[connector_name]/restart
+🚨 Troubleshooting
+Common Issues
+Database Connection Failures
 
-Push to branch (git push origin feature/amazing-feature)
+Verify credentials in environment variables
 
-Open a Pull Request
+Check MySQL container status
 
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
+Examine database connection logs
 
-Support
-For support and questions:
+Kafka Connect Errors
 
-Check the troubleshooting section above
+Check connector status via REST API
 
-Review service logs using docker-compose logs
+Examine connect logs for specific errors
 
-Verify environment variable configuration
+Verify network connectivity between services
 
-Ensure all prerequisite services are running
+API Deployment Issues
 
-Examine the Jenkins pipeline output for deployment issues
+Check FastAPI logs for model loading errors
 
-Related Projects
+Verify model file exists in correct location
+
+Test API health endpoint
+
+📈 Performance Monitoring
+The platform includes comprehensive monitoring through:
+
+Prometheus metrics collection
+
+JMX exporters for JVM monitoring
+
+Node exporters for system metrics
+
+Kafka Connect metrics for pipeline performance
+
+🔗 Related Projects
 MLOps FastAPI Dev & Test: Development and testing repository
 
 Grafana Prometheus Monitoring: Monitoring infrastructure
 
 MLOps Main Repository: Main project repository
 
+📄 License
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+🆘 Support
+For support and deployment issues:
+
+Check the Jenkins pipeline output for specific errors
+
+Review service logs using Docker commands
+
+Verify AWS credential configuration in Jenkins
+
+Ensure all prerequisite resources are properly configured
+
+Note: This is a production-grade MLOps platform designed for automated deployment through Jenkins. Manual execution is not recommended for production environments. Ensure proper security measures, monitoring, and backup strategies are in place before deployment.
