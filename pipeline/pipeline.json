@@ -1,622 +1,746 @@
-{
-  "annotations": {
-    "list": [
-      {
-        "builtIn": 1,
-        "datasource": {
-          "type": "grafana",
-          "uid": "-- Grafana --"
-        },
-        "enable": true,
-        "hide": true,
-        "iconColor": "rgba(0, 211, 255, 1)",
-        "name": "Annotations & Alerts",
-        "type": "dashboard"
-      }
-    ]
-  },
-  "editable": true,
-  "fiscalYearStartMonth": 0,
-  "graphTooltip": 0,
-  "id": 17,
-  "links": [],
-  "panels": [
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "eexgs7y162xhce"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": 0
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 24,
-        "x": 0,
-        "y": 0
-      },
-      "id": 6,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "12.1.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "eexgs7y162xhce"
-          },
-          "editorMode": "code",
-          "expr": "debezium_mysql_connector_metrics_totalnumberofeventsseen",
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "debezium_mysql_connector_metrics_totalnumberofeventsseen",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "eexgs7y162xhce"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": 0
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 11,
-        "w": 24,
-        "x": 0,
-        "y": 10
-      },
-      "id": 5,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "12.1.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "eexgs7y162xhce"
-          },
-          "editorMode": "code",
-          "expr": "kafka_producer_producer_topic_metrics_byte_rate",
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "kafka_producer_producer_topic_metrics_byte_rate",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "eexgs7y162xhce"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": 0
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 24,
-        "x": 0,
-        "y": 21
-      },
-      "id": 1,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "12.1.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "eexgs7y162xhce"
-          },
-          "editorMode": "code",
-          "expr": "kafka_connect_source_task_metrics_poll_batch_avg_time_ms",
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "kafka_connect_source_task_metrics_poll_batch_avg_time_ms",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "eexgs7y162xhce"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": 0
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 24,
-        "x": 0,
-        "y": 31
-      },
-      "id": 3,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "12.1.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "eexgs7y162xhce"
-          },
-          "editorMode": "code",
-          "expr": "kafka_connect_connector_task_metrics_offset_commit_avg_time_ms",
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "kafka_connect_connector_task_metrics_offset_commit_avg_time_ms",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "eexgs7y162xhce"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": 0
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 24,
-        "x": 0,
-        "y": 41
-      },
-      "id": 2,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "12.1.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "eexgs7y162xhce"
-          },
-          "editorMode": "code",
-          "expr": "kafka_connect_sink_task_metrics_put_batch_avg_time_ms",
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "kafka_connect_sink_task_metrics_put_batch_avg_time_ms",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "eexgs7y162xhce"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": 0
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 24,
-        "x": 0,
-        "y": 51
-      },
-      "id": 4,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "12.1.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "eexgs7y162xhce"
-          },
-          "editorMode": "code",
-          "expr": "prometheus_treecache_zookeeper_failures_total",
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "prometheus_treecache_zookeeper_failures_total",
-      "type": "timeseries"
+pipeline {
+    agent any
+
+    environment {
+        BASE_TAG = "mlops-fast-api"
+        REGION = "us-east-1"
+        AMI_ID = "ami-020cba7c55df1f615"
+        SUBNET_ID = "subnet-0bccf87c46ca303ed"
+        LAUNCH_TEMPLATE_ID = "lt-0b64c4af9d5f19bd8"
+        KEY_NAME = "mlops-proj"
+        ec2_USER = "ubuntu"
     }
-  ],
-  "preload": false,
-  "schemaVersion": 41,
-  "tags": [],
-  "templating": {
-    "list": []
-  },
-  "time": {
-    "from": "now-24h",
-    "to": "now"
-  },
-  "timepicker": {},
-  "timezone": "browser",
-  "title": "Kafka Debezium CDC Monitor",
-  "uid": "f488eec1-e55d-4076-a09b-3dd88d868441",
-  "version": 15
+
+    stages {
+        stage('Generate Unique Tag') {
+            steps {
+                script {
+                    env.RANDOM_SUFFIX = UUID.randomUUID().toString().take(8)
+                    env.INSTANCE_TAG = "${BASE_TAG}-${RANDOM_SUFFIX}"
+                    env.SG_NAME = "${BASE_TAG}-sg-${RANDOM_SUFFIX}"
+                    echo "🔖 Generated tag: ${INSTANCE_TAG}"
+                }
+            }
+        }
+
+        stage('Cleanup Old EC2s & SGs') {
+            steps {
+                withAWS(region: "${REGION}", credentials: 'aws-jenkins-creds') {
+                    script {
+                        def old_instances = sh(
+                            script: """
+                                aws ec2 describe-instances \
+                                --region ${REGION} \
+                                --filters "Name=tag:Name,Values=${BASE_TAG}-*" "Name=instance-state-name,Values=running" \
+                                --query "Reservations[].Instances[].InstanceId" \
+                                --output text
+                            """,
+                            returnStdout: true
+                        ).trim()
+
+                        if (old_instances) {
+                            echo "🗑️ Terminating old EC2s: ${old_instances}"
+                            sh "aws ec2 terminate-instances --region ${REGION} --instance-ids ${old_instances}"
+                            sh "aws ec2 wait instance-terminated --region ${REGION} --instance-ids ${old_instances}"
+                        } else {
+                            echo "✅ No old instances found."
+                        }
+
+                        def old_sgs = sh(
+                            script: """
+                                aws ec2 describe-security-groups \
+                                --region ${REGION} \
+                                --query "SecurityGroups[?starts_with(GroupName, '${BASE_TAG}-sg-')].GroupId" \
+                                --output text
+                            """,
+                            returnStdout: true
+                        ).trim()
+
+                        if (old_sgs) {
+                            for (sg_id in old_sgs.tokenize()) {
+                                echo "🛡️ Deleting SG: ${sg_id}"
+                                sh "aws ec2 delete-security-group --region ${REGION} --group-id ${sg_id} || true"
+                            }
+                        } else {
+                            echo "✅ No old SGs found."
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Create Security Group') {
+            steps {
+                withAWS(region: "${REGION}", credentials: 'aws-jenkins-creds') {
+                    script {
+                        env.VPC_ID = sh(
+                            script: """
+                                aws ec2 describe-subnets --region ${REGION} --subnet-ids ${SUBNET_ID} \
+                                --query "Subnets[0].VpcId" --output text
+                            """, returnStdout: true
+                        ).trim()
+
+                        env.SECURITY_GROUP_ID = sh(
+                            script: """
+                                aws ec2 create-security-group \
+                                --region ${REGION} \
+                                --group-name ${SG_NAME} \
+                                --description "MLOps SG for ${INSTANCE_TAG}" \
+                                --vpc-id ${VPC_ID} \
+                                --query 'GroupId' \
+                                --output text
+                            """, returnStdout: true
+                        ).trim()
+
+                        echo "✅ SG created: ${SECURITY_GROUP_ID}"
+
+                        sh """
+                            aws ec2 authorize-security-group-ingress --region ${REGION} --group-id ${SECURITY_GROUP_ID} \
+                            --ip-permissions '[
+                                {"IpProtocol": "tcp", "FromPort": 22, "ToPort": 22, "IpRanges": [{"CidrIp": "54.236.64.223/32"}]},
+                                {"IpProtocol": "tcp", "FromPort": 22, "ToPort": 22, "IpRanges": [{"CidrIp": "3.93.149.88/32"}]},
+                                {"IpProtocol": "tcp", "FromPort": 22, "ToPort": 22, "IpRanges": [{"CidrIp": "44.212.42.254/32"}]},
+                                {"IpProtocol": "tcp", "FromPort": 80, "ToPort": 80, "IpRanges": [{"CidrIp": "54.236.64.223/32"}]},
+                                {"IpProtocol": "tcp", "FromPort": 443, "ToPort": 443, "IpRanges": [{"CidrIp": "54.236.64.223/32"}]},
+                                {"IpProtocol": "tcp", "FromPort": 8000, "ToPort": 8000, "IpRanges": [{"CidrIp": "3.93.149.88/32"}]},
+                                {"IpProtocol": "tcp", "FromPort": 8000, "ToPort": 8000, "IpRanges": [{"CidrIp": "44.212.42.254/32"}]},
+                                {"IpProtocol": "tcp", "FromPort": 8000, "ToPort": 8000, "IpRanges": [{"CidrIp": "54.236.64.223/32"}]},
+                                {"IpProtocol": "tcp", "FromPort": 8000, "ToPort": 8000, "IpRanges": [{"CidrIp": "3.82.125.25/32"}]},
+                                {"IpProtocol": "tcp", "FromPort": 9090, "ToPort": 9090, "IpRanges": [{"CidrIp": "3.91.20.155/32",  "Description": "Access from grafana monitoring server"}]}
+                            ]'
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Launch EC2 Instance') {
+            steps {
+                withAWS(region: "${REGION}", credentials: 'aws-jenkins-creds') {
+                    script {
+                        echo "🚀 Launching EC2 instance..."
+                        env.INSTANCE_ID = sh(
+                            script: """
+                                aws ec2 run-instances \
+                                --region ${REGION} \
+                                --image-id "${AMI_ID}" \
+                                --instance-type "t3.large" \
+                                --instance-initiated-shutdown-behavior "stop" \
+                                --key-name "${KEY_NAME}" \
+                                --block-device-mappings '[{
+                                    "DeviceName": "/dev/sda1",
+                                    "Ebs": {
+                                        "DeleteOnTermination": true,
+                                        "VolumeSize": 30,
+                                        "VolumeType": "gp3"
+                                    }
+                                }]' \
+                                --network-interfaces '[{
+                                    "SubnetId": "${SUBNET_ID}",
+                                    "DeleteOnTermination": true,
+                                    "AssociatePublicIpAddress": true,
+                                    "DeviceIndex": 0,
+                                    "Groups": ["${SECURITY_GROUP_ID}"]
+                                }]' \
+                                --launch-template '{"LaunchTemplateId":"${LAUNCH_TEMPLATE_ID}","Version":"1"}' \
+                                --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=${INSTANCE_TAG}}]' \
+                                --count 1 \
+                                --query "Instances[0].InstanceId" \
+                                --output text
+                            """,
+                            returnStdout: true
+                        ).trim()
+
+                        echo "✅ Launched instance: ${INSTANCE_ID}"
+
+                        echo "⏳ Waiting for instance to be running..."
+                        sh "aws ec2 wait instance-running --region ${REGION} --instance-ids ${INSTANCE_ID}"
+
+                        env.INSTANCE_IP = sh(
+                            script: """
+                                aws ec2 describe-instances \
+                                --region ${REGION} \
+                                --instance-ids ${INSTANCE_ID} \
+                                --query "Reservations[0].Instances[0].PublicIpAddress" \
+                                --output text
+                            """,
+                            returnStdout: true
+                        ).trim()
+
+                        echo "🌐 Instance public IP: ${INSTANCE_IP}"
+
+                        env.INSTANCE_PRIVATE_IP = sh(
+                            script: """
+                                aws ec2 describe-instances \
+                                --region ${REGION} \
+                                --instance-ids ${INSTANCE_ID} \
+                                --query "Reservations[0].Instances[0].PrivateIpAddress" \
+                                --output text
+                            """,
+                            returnStdout: true
+                        ).trim()
+
+                        echo "Instance private IP: ${INSTANCE_PRIVATE_IP}"
+                    }
+                }
+            }
+        }
+
+        stage('SSH Install Docker & Reboot') {
+            steps {
+                withCredentials([file(credentialsId: 'mlops-ssh-key', variable: 'PEM_PATH')]) {
+                    script {
+                        echo "🔐 Installing Docker on remote EC2..."
+                        retry(5) {
+                            sleep 10
+                            sh """
+                                ssh -o StrictHostKeyChecking=no -i ${PEM_PATH} ${ec2_USER}@${INSTANCE_IP} << 'EOF'
+                                    set -e
+                                    echo "📦 Installing Docker..."
+
+                                    sudo apt remove -y docker docker-engine docker.io containerd runc || true
+                                    sudo apt update
+                                    sudo apt install -y ca-certificates curl gnupg lsb-release
+
+                                    sudo mkdir -p /etc/apt/keyrings
+                                    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+                                    echo "deb [arch=\$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+                                    sudo apt update
+                                    sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+                                    sudo systemctl enable docker
+                                    sudo systemctl start docker
+
+                                    sudo groupadd docker || true
+                                    sudo usermod -aG docker "\$USER"
+
+                                    echo "✅ Docker installed. Rebooting..."
+                                    sudo reboot
+EOF
+                            """
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Wait for Reboot') {
+            steps {
+                withCredentials([file(credentialsId: 'mlops-ssh-key', variable: 'PEM_PATH')]) {
+                    script {
+                        echo "⌛ Waiting for instance to reboot and become reachable..."
+                        retry(10) {
+                            sleep 20
+                            sh """
+                                ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 -i ${PEM_PATH} ${ec2_USER}@${INSTANCE_IP} 'echo "✅ Server is back online!"'
+                            """
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('SSH and Test') {
+            steps {
+                withCredentials([file(credentialsId: 'mlops-ssh-key', variable: 'PEM_PATH')]) {
+                    script {
+                        echo "🔐 Final SSH check..."
+                        sh """
+                            ssh -o StrictHostKeyChecking=no -i ${PEM_PATH} ${ec2_USER}@${INSTANCE_IP} '
+                                echo "✅ Docker Version:"
+                                docker --version
+                            '
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Install mysql client') {
+            steps {
+                withCredentials([file(credentialsId: 'mlops-ssh-key', variable: 'PEM_PATH')]) {
+                    script {
+                        echo "🔐 Installing mysql-client on remote EC2..."
+                        sh """
+                            ssh -o StrictHostKeyChecking=no -i ${PEM_PATH} ${ec2_USER}@${INSTANCE_IP} << 'EOF'
+                                set -e
+                                echo "📦 Installing mysql-client..."
+                                sudo apt install mysql-client -y
+EOF
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Prometheus & Node Exporter installation') {
+            steps {
+                withCredentials([file(credentialsId: 'mlops-ssh-key', variable: 'PEM_PATH')]) {
+                    script {
+                        env.REPO_DIR="grafana-prometheus-server-monitoring"
+                        echo "🔐 Connecting via SSH and cloning Git repository..."
+                        sh """
+                            ssh -o StrictHostKeyChecking=no -i ${PEM_PATH} ${ec2_USER}@${INSTANCE_IP} '
+                                set -e
+                                
+                                REPO_URL="https://github.com/ThatoK3/grafana-prometheus-server-monitoring.git"
+                                
+                                if [ ! -d "${REPO_DIR}" ]; then
+                                    echo "📥 Cloning repository..."
+                                    git clone \$REPO_URL
+                                else
+                                    echo "✅ Repo already cloned."
+                                fi
+
+                                if [ -d "${REPO_DIR}/.git" ]; then
+                                    echo "📁 Changing to repo directory, verifying and installing Prometheus..."
+                                    cd ${REPO_DIR}
+                                    git status
+                                    sudo bash install_prometheus.sh
+                                else
+                                    echo "❌ Repository clone failed or installation invalid."
+                                    exit 1
+                                fi
+                            '
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Clone MLOps Fast API Repo') {
+            steps {
+                withCredentials([file(credentialsId: 'mlops-ssh-key', variable: 'PEM_PATH')]) {
+                    script {
+                        env.REPO_DIR="mlops-fast-api-prod"
+                        echo "🔐 Connecting via SSH and cloning Git repository..."
+                        sh """
+                            ssh -o StrictHostKeyChecking=no -i ${PEM_PATH} ${ec2_USER}@${INSTANCE_IP} '
+                                set -e
+                                
+                                REPO_URL="https://github.com/ThatoK3/mlops-fast-api-prod.git"
+                                
+                                if [ ! -d "${REPO_DIR}" ]; then
+                                    echo "📥 Cloning repository..."
+                                    git clone \$REPO_URL
+                                else
+                                    echo "✅ Repo already cloned."
+                                fi
+
+                                if [ -d "${REPO_DIR}/.git" ]; then
+                                    echo "📁 Changing to repo directory and verifying..."
+                                    cd ${REPO_DIR}
+                                    git status
+                                else
+                                    echo "❌ Repository clone failed or invalid."
+                                    exit 1
+                                fi
+                            '
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Write .env via SSH') {
+            steps {
+                withCredentials([
+                    file(credentialsId: 'mlops-ssh-key', variable: 'PEM_PATH'),
+                    usernamePassword(credentialsId: 'mlflow-experiments-db-creds', usernameVariable: 'MYSQL_USER', passwordVariable: 'MYSQL_PASSWORD'),
+                    usernamePassword(credentialsId: 'mlflow-experiments-db-root-user-creds', usernameVariable: 'MYSQL_ROOT_USER', passwordVariable: 'MYSQL_ROOT_PASSWORD'),
+                    usernamePassword(credentialsId: 'aws-mssql-db-stroke-pred-api-v1', usernameVariable: 'MSSQL_USER', passwordVariable: 'MSSQL_PASSWORD')
+                ]) {
+                    withAWS(region: 'us-east-1', credentials: 'aws-jenkins-creds') {
+                        script {
+                            def awsAccessKey = env.AWS_ACCESS_KEY_ID ?: ''
+                            def awsSecretKey = env.AWS_SECRET_ACCESS_KEY ?: ''
+                            
+                            def envContent = """
+# MySQL
+MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+MYSQL_USER=${MYSQL_USER}
+MYSQL_PASSWORD=${MYSQL_PASSWORD}
+MYSQL_HOST=mysql
+MYSQL_PORT=3306
+MYSQL_DATABASE=stroke_predictions
+MYSQL_SERVER_ID=184054
+MYSQL_SERVER_NAME=dbserver1
+
+# MSSQL
+MSSQL_HOST=stroke-pred-api-v1.c0lswie66uam.us-east-1.rds.amazonaws.com
+MSSQL_PORT=1433
+MSSQL_DB=stroke_predictions_sink
+MSSQL_USER=${MSSQL_USER}
+MSSQL_PASSWORD="${MSSQL_PASSWORD}"
+
+# AWS creds
+AWS_ACCESS_KEY_ID=${awsAccessKey}
+AWS_SECRET_ACCESS_KEY=${awsSecretKey}
+AWS_DEFAULT_REGION=us-east-1
+AWS_REGION=us-east-1
+SCHEMA_REGISTRY_URL=http://schema-registry:8081
+S3_BUCKET=mlops-dbz-sink
+
+# Paths (relative to project root)
+JDBC_SINK_JARS=./kconnect-jdbc-sink-jars
+S3_SINK_JARS=./kconnect-s3-sink-jars
+CONNECT_TRANSFORMS=./confluentic-connect-transforms
+FAST_API=./fast_api
+MODELS=./models
+NOTEBOOKS=./notebooks
+SAVED_MODEL=./models/Logistic_Regression.pkl
+
+INSTANCE_PRIVATE_IP=${INSTANCE_PRIVATE_IP}
+""".stripIndent().trim()
+
+                            sh """
+                                ssh -o StrictHostKeyChecking=no -i ${PEM_PATH} ${ec2_USER}@${INSTANCE_IP} 'bash -s' <<EOF
+                                cd ${REPO_DIR}
+                                cat > .env <<EOT
+${envContent}
+EOT
+                                chmod 600 .env
+EOF
+                            """
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('SSH and Run docker compose') {
+            steps {
+                withCredentials([file(credentialsId: 'mlops-ssh-key', variable: 'PEM_PATH')]) {
+                    script {
+                        echo "🔐 Connecting via SSH and docker compose..."
+                        retry(3) {
+                            sleep 10
+                            sh """
+                                ssh -o StrictHostKeyChecking=no -i ${PEM_PATH} ${ec2_USER}@${INSTANCE_IP} '
+                                    set -e
+                                    cd ${REPO_DIR}
+                                    docker compose down
+                                    docker compose --env-file .env up -d --build
+                                '
+                            """
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('SSH and Run upload db data') {
+            steps {
+                withCredentials([file(credentialsId: 'mlops-ssh-key', variable: 'PEM_PATH')]) {
+                    script {
+                        echo "🔐 Connecting via SSH and uploading db data..."
+                        retry(10) {
+                            sleep 45
+                            sh """
+                                ssh -o StrictHostKeyChecking=no -i ${PEM_PATH} ${ec2_USER}@${INSTANCE_IP} '
+                                    cd ${REPO_DIR}
+                                    bash upload_db_data.sh
+                                '
+                            """
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('SSH and Run register mysql source db connector') {
+            steps {
+                withCredentials([file(credentialsId: 'mlops-ssh-key', variable: 'PEM_PATH')]) {
+                    script {
+                        echo "🔐 Connecting via SSH and registering mysql source db data to kafta..."
+                        retry(3) {
+                            sleep 10
+                            sh """
+                                ssh -o StrictHostKeyChecking=no -i ${PEM_PATH} ${ec2_USER}@${INSTANCE_IP} '
+                                    set -e
+                                    cd ${REPO_DIR}
+                                    bash dbz-register-mysql-source.sh
+
+                                    sleep 30
+                                    curl -s http://localhost:8083/connectors/stroke-predictions-connector/status | jq
+                                '
+                            """
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('SSH and Run register mssql sink db connector') {
+            steps {
+                withCredentials([file(credentialsId: 'mlops-ssh-key', variable: 'PEM_PATH')]) {
+                    script {
+                        echo "🔐 Connecting via SSH and registering mssql sink db connector to kafta..."
+                        retry(3) {
+                            sleep 10
+                            sh """
+                                ssh -o StrictHostKeyChecking=no -i ${PEM_PATH} ${ec2_USER}@${INSTANCE_IP} '
+                                    set -e
+                                    cd ${REPO_DIR}
+                                    bash dbz-register-mssql-sink.sh
+
+                                    sleep 30
+                                    curl -s http://localhost:8083/connectors/mssql-sink-predictions/status | jq
+                                '
+                            """
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('SSH and Run register s3 topics sink connector') {
+            steps {
+                withCredentials([file(credentialsId: 'mlops-ssh-key', variable: 'PEM_PATH')]) {
+                    script {
+                        echo "🔐 Connecting via SSH and registering s3 topics sink connector..."
+                        retry(3) {
+                            sleep 10
+                            sh """
+                                ssh -o StrictHostKeyChecking=no -i ${PEM_PATH} ${ec2_USER}@${INSTANCE_IP} '
+                                    cd ${REPO_DIR}
+                                    source .env
+                                    bash dbz-register-s3-sink.sh
+
+                                    sleep 30
+                                    curl -s http://localhost:8083/connectors/s3-sink-stroke-predictions/status | jq
+                                '
+                            """
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Check fast api Availability') {
+            steps {
+                script {
+                    def SERVICE_NAME = "Fast API" 
+                    def PORT = 8000                          
+                    def targetUrl = "http://${INSTANCE_IP}:${PORT}"
+
+                    echo "🔍 Checking if ${SERVICE_NAME} at ${targetUrl} is reachable..."
+
+                    retry(10) {
+                        sleep 45
+                        sh """
+                            STATUS_CODE=\$(curl -o /dev/null -s -w "%{http_code}" --max-time 5 ${targetUrl})
+                            if [ "\$STATUS_CODE" != "200" ]; then
+                                echo "❌ ${SERVICE_NAME} not available yet (HTTP \$STATUS_CODE)"
+                                exit 1
+                            fi
+                            echo "✅ ${SERVICE_NAME} is accessible (HTTP \$STATUS_CODE)"
+                        """
+                    }
+                }
+            }
+        }
+
+
+
+        stage('Configure Prometheus for Kafka Connect Monitoring') {
+            steps {
+                withCredentials([file(credentialsId: 'mlops-ssh-key', variable: 'PEM_PATH')]) {
+                    script {
+                        echo "🔧 Configuring Prometheus for Kafka Connect CDC monitoring..."
+                        sh """
+                            ssh -o StrictHostKeyChecking=no -i ${PEM_PATH} ${ec2_USER}@${INSTANCE_IP} '
+                                set -e
+                                
+                                echo "📦 Creating backup of current Prometheus config..."
+                                sudo cp /etc/prometheus/prometheus.yml /etc/prometheus/prometheus.yml.backup.\$(date +%Y%m%d_%H%M%S)
+                                
+                                echo "🔄 Updating Prometheus configuration for Kafka Connect..."
+                                cat > /tmp/prometheus_new.yml << \\EOF
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: node
+    static_configs:
+      - targets: ['localhost:9100']
+
+  # Kafka Connect CDC Metrics (Debezium) - PORT 9400
+  - job_name: 'kafka-connect-cdc'
+    scrape_interval: 15s
+    static_configs:
+      - targets: ['localhost:9400']
+        labels:
+          environment: 'production'
+          service: 'debezium-cdc'
+          host: 'cdc-server'
+
+EOF
+
+                                echo "✅ Validating new configuration..."
+                                if ! sudo promtool check config /tmp/prometheus_new.yml; then
+                                    echo "❌ Configuration validation failed!"
+                                    exit 1
+                                fi
+
+                                echo "📤 Applying new configuration..."
+                                sudo mv /tmp/prometheus_new.yml /etc/prometheus/prometheus.yml
+                                sudo chown prometheus:prometheus /etc/prometheus/prometheus.yml
+                                sudo chmod 644 /etc/prometheus/prometheus.yml
+
+                                echo "🔄 Reloading Prometheus..."
+                                if sudo systemctl reload prometheus 2>/dev/null; then
+                                    echo "✅ Prometheus reloaded via systemctl"
+                                elif curl -X POST http://localhost:9090/-/reload 2>/dev/null; then
+                                    echo "✅ Prometheus reloaded via HTTP API"
+                                else
+                                    echo "⚠️  Reload failed, restarting Prometheus..."
+                                    sudo systemctl restart prometheus
+                                fi
+
+                                echo "🎉 Prometheus configuration updated for Kafka Connect CDC!"
+                                echo "📊 Metrics available at: http://localhost:9090/targets"
+                            '
+                        """
+                    }
+                }
+            }
+        }
+
+
+
+        
+        stage('Restart Prometheus') {
+            steps {
+                withCredentials([file(credentialsId: 'mlops-ssh-key', variable: 'PEM_PATH')]) {
+                    script {
+                        echo "🔄 Restarting Prometheus to load Kafka Connect configuration..."
+                        sh """
+                            ssh -o StrictHostKeyChecking=no -i ${PEM_PATH} ${ec2_USER}@${INSTANCE_IP} '
+                                set -e
+                                echo "Stopping Prometheus..."
+                                sudo systemctl stop prometheus
+                                sleep 2
+                                echo "Starting Prometheus..."
+                                sudo systemctl start prometheus
+                                sleep 5
+                                echo "Checking Prometheus status..."
+                                sudo systemctl status prometheus --no-pager -l | head -5
+                                echo "✅ Prometheus restarted successfully"
+                            '
+                        """
+                    }
+                }
+            }
+        }
+
+
+        stage('Verify Prometheus Targets') {
+            steps {
+                withCredentials([file(credentialsId: 'mlops-ssh-key', variable: 'PEM_PATH')]) {
+                    script {
+                        echo "📋 Verifying Prometheus targets..."
+                        sh """
+                            ssh -o StrictHostKeyChecking=no -i ${PEM_PATH} ${ec2_USER}@${INSTANCE_IP} << 'EOF'
+                                set -e
+                                echo "Checking all targets..."
+                                
+                                echo "Target URLs:"
+                                curl -s http://localhost:9090/api/v1/targets | jq '.data.activeTargets[] | .scrapeUrl'
+                                
+                                echo ""
+                                echo "Target health status:"
+                                curl -s http://localhost:9090/api/v1/targets | jq '.data.activeTargets[] | {scrapeUrl: .scrapeUrl, health: .health}'
+                                
+                                echo "✅ Prometheus targets verified"
+EOF
+                        """
+                    }
+                }
+            }
+        }
+
+
+
+        stage('Verify Kafka Connect Metrics') {
+            steps {
+                withCredentials([file(credentialsId: 'mlops-ssh-key', variable: 'PEM_PATH')]) {
+                    script {
+                        echo "📊 Verifying Kafka Connect metrics endpoint..."
+                        sh """
+                            ssh -o StrictHostKeyChecking=no -i ${PEM_PATH} ${ec2_USER}@${INSTANCE_IP} '
+                                set -e
+                                echo "Testing metrics endpoint on port 9400..."
+                                
+                                # Quick test first
+                                if curl -s --max-time 5 http://localhost:9400/metrics > /dev/null; then
+                                    echo "✅ Metrics endpoint is responsive"
+                                    
+                                    # Check for Kafka Connect metrics
+                                    if curl -s http://localhost:9400/metrics | grep -q "kafka_connect"; then
+                                        echo "✅ Kafka Connect metrics found!"
+                                        echo "Sample metrics:"
+                                        curl -s http://localhost:9400/metrics | grep "kafka_connect" | head -3
+                                    else
+                                        echo "⚠️  Endpoint responsive but no Kafka Connect metrics found"
+                                        curl -s http://localhost:9400/metrics | head -5
+                                    fi
+                                else
+                                    echo "❌ Metrics endpoint not responsive"
+                                    echo "Checking container status..."
+                                    docker ps | grep connect
+                                    exit 1
+                                fi
+                            '
+                        """
+                    }
+                }
+            }
+        }
+
+
+        stage('Display Monitoring URLs') {
+            steps {
+                withCredentials([file(credentialsId: 'mlops-ssh-key', variable: 'PEM_PATH')]) {
+                    script {
+                        echo "🎯 Displaying monitoring endpoints..."
+                        sh """
+                            ssh -o StrictHostKeyChecking=no -i ${PEM_PATH} ${ec2_USER}@${INSTANCE_IP} '
+                                echo ""
+                                echo "🎉 MONITORING SETUP COMPLETE!"
+                                echo "========================================"
+                                echo "Prometheus UI:    http://${INSTANCE_IP}:9090"
+                                echo "Connect Metrics:  http://${INSTANCE_IP}:9400/metrics"
+                                echo "Grafana UI:       http://your-grafana-ip:3000"
+                                echo ""
+                                echo "📊 Next steps:"
+                                echo "- Import Kafka Connect dashboard in Grafana (ID: 12664)"
+                                echo "- Set up alerts for connector status and replication lag"
+                                echo "========================================"
+                            '
+                        """
+                    }
+                }
+            }
+        }
+
+
+
+
+    }
+
+    post {
+        always {
+            echo "✔️ Pipeline finished. Instance: ${INSTANCE_ID} | SG: ${SECURITY_GROUP_ID} | IP: INSTANCE_IP" 
+        }
+        failure {
+            echo "❌ Pipeline failed. Check logs above."
+        }
+    }
 }
