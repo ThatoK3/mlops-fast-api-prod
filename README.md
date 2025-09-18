@@ -1,4 +1,4 @@
-MLOps FastAPI Production Platform
+MLOps Stroke Prediction FastAPI Production Platform
 A comprehensive machine learning operations platform featuring FastAPI model serving, real-time data streaming with Kafka Connect, and distributed processing with Apache Spark. This production-ready solution provides end-to-end ML pipeline automation with infrastructure-as-code deployment.
 
 🌟 Key Features
